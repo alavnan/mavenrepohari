@@ -1,22 +1,30 @@
 pipeline {
-    agent any 
-    environment {
-        demovar = 'demovalue'
+    agent any
+    tools {
+        maven 'maven3.81'
     }
     stages {
-        stage('clone the code') {
+        stage('Get the code') {
             steps {
-                sh 'echo "i am cloning the code"'
+                git 'https://github.com/alavnan/mavenrepohari'
             }
         }
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'echo "i am doing the build"'
+                sh 'mvn package'
             }
         }
-        stage('deploy') {
+        stage('Approval from release manager') {
+            input {
+                message "Approved By ReleaseManager"
+            }
             steps {
-                sh 'echo "i am deploying"'
+                sh 'echo "hello"'
+            }
+        }
+        stage('DevDeploy') {
+            steps {
+                sh 'cp target/JenkinsWar.war /var/lib/tomcat8/webapps'
             }
         }
     }
