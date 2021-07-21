@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'maven3.81'
+        maven 'maven'
     }
     stages {
         stage('Get the code') {
